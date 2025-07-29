@@ -1,0 +1,1327 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kheshig Travel - Mongolian Empire Expeditions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .header-font {
+            font-family: 'Playfair Display', serif;
+        }
+        .transport-icon {
+            transition: all 0.3s ease;
+        }
+        .transport-icon:hover {
+            transform: scale(1.1);
+        }
+        .search-result {
+            transition: all 0.3s ease;
+        }
+        .search-result:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .animated-gradient {
+            background: linear-gradient(-45deg, #d4af37, #c0392b, #d4af37, #f39c12);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .progress-step {
+            transition: all 0.3s ease;
+        }
+        .progress-step.active {
+            transform: scale(1.1);
+        }
+        #map {
+            height: 600px;
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        .accommodation-marker {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+        }
+        .hotel-marker {
+            background-color: rgba(231, 76, 60, 0.8);
+            border: 2px solid #e74c3c;
+        }
+        .private-marker {
+            background-color: rgba(46, 204, 113, 0.8);
+            border: 2px solid #2ecc71;
+        }
+        .activity-marker {
+            background-color: rgba(52, 152, 219, 0.8);
+            border: 2px solid #3498db;
+        }
+        .risk-meter {
+            height: 8px;
+            border-radius: 4px;
+            margin: 8px 0;
+            position: relative;
+        }
+        .risk-meter-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .review-stars {
+            color: #f39c12;
+            font-size: 14px;
+        }
+        .weather-icon {
+            font-size: 24px;
+        }
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .price-update-indicator {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .price-history {
+            height: 40px;
+            background: linear-gradient(90deg, #d4af37 0%, #c0392b 50%, #d4af37 100%);
+            background-size: 200% 100%;
+            animation: slide 10s linear infinite;
+            border-radius: 4px;
+            margin: 4px 0;
+        }
+        @keyframes slide {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .trending-up {
+            color: #27ae60;
+        }
+        .trending-down {
+            color: #e74c3c;
+        }
+        .price-change {
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 8px;
+        }
+        .price-change.positive {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+        }
+        .price-change.negative {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+        }
+        .pet-icon {
+            color: #e67e22;
+            font-size: 16px;
+            margin-right: 4px;
+        }
+        .filter-badge {
+            background: linear-gradient(135deg, #d4af37, #c0392b);
+            color: white;
+            font-weight: 500;
+        }
+        .queue-skip {
+            background: linear-gradient(135deg, #c0392b, #8e44ad);
+            color: white;
+        }
+        .cultural-event {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <div class="bg-gradient-to-r from-yellow-600 to-red-600 p-2 rounded-lg mr-3">
+                    <i class="fas fa-crown text-white text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800 header-font">Kheshig Travel</h1>
+                <div class="ml-4 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium flex items-center price-update-indicator">
+                    <i class="fas fa-sync-alt mr-2"></i> Imperial Rates
+                </div>
+            </div>
+            <nav class="flex space-x-6">
+                <a href="#" class="text-gray-600 hover:text-yellow-600 transition">Home</a>
+                <a href="#" class="text-gray-600 hover:text-yellow-600 transition">My Expeditions</a>
+                <a href="#" class="text-gray-600 hover:text-yellow-600 transition">Imperial Tracking</a>
+                <a href="#" class="text-gray-600 hover:text-yellow-600 transition">Support</a>
+            </nav>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-yellow-900/90 to-red-900/90 text-white p-8 rounded-xl mb-8 text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-black opacity-20"></div>
+            <div class="relative z-10">
+                <h2 class="text-4xl md:text-5xl font-bold header-font mb-4">The Elite Guard of Travel</h2>
+                <p class="text-xl mb-6 opacity-90">We are here to advise you of the best and most up to date prices and methods of travel </p>
+                <div class="bg-yellow-800/50 p-4 rounded-lg inline-block">
+                    <p class="font-medium"><i class="fas fa-crown mr-2"></i> Only the Kheshig can command such service</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Update Banner -->
+        <div class="bg-gradient-to-r from-yellow-600 to-red-600 text-white p-4 rounded-xl mb-6 text-center">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-bolt mr-3"></i>
+                <p class="font-medium">Imperial Rate Updates: Our scouts monitor 50+ routes every 30 seconds for the best arrangements</p>
+                <div class="ml-4 bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                    Updated: <span id="update-time">14:23:15</span>
+                </div>
+            </div>
+        </div>
+        <!-- Tabs -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex border-b mb-6">
+                <button id="planning-tab" class="tab-button px-6 py-3 font-medium text-yellow-600 border-b-2 border-yellow-600 focus:outline-none">Expedition Planning</button>
+                <button id="tracking-tab" class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-yellow-600 focus:outline-none">Imperial Tracking</button>
+            </div>
+            <!-- Journey Planning Tab -->
+            <div id="planning-content" class="tab-content">
+                <!-- Search Form -->
+                <div class="bg-gradient-to-r from-yellow-50 to-red-50 rounded-xl p-6 mb-8">
+                    <h2 class="text-xl font-semibold mb-6 text-gray-800">Plan Your Imperial Journey</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">From</label>
+                            <div class="relative">
+                                <input type="text" placeholder="Origin (city, airport, dock, station)" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                <i class="fas fa-map-marker-alt text-gray-400 absolute right-3 top-3"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">To</label>
+                            <div class="relative">
+                                <input type="text" placeholder="Destination (city, airport, dock, station)" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                <i class="fas fa-map-marker-alt text-gray-400 absolute right-3 top-3"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Departure</label>
+                            <div class="relative">
+                                <input type="datetime-local" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                <i class="fas fa-calendar-alt text-gray-400 absolute right-3 top-3"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Return</label>
+                            <div class="relative">
+                                <input type="datetime-local" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                <i class="fas fa-calendar-alt text-gray-400 absolute right-3 top-3"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Transport Options -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Transport Modes</label>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Commercial Flights</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Private Aviation</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Cargo Planes (Passenger)</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Commercial Ships</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Private Yachts</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Cargo Ships (Passenger)</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Commercial Trains</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Private Rail</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" checked class="form-checkbox h-5 w-5 text-yellow-600">
+                                <span class="ml-2 text-gray-700">Freight Trains (Passenger)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Pet Friendly Filter -->
+                    <div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-paw pet-icon"></i>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" id="pet-friendly" class="form-checkbox h-5 w-5 text-yellow-600 mr-2">
+                                <span class="text-gray-700 font-medium">Pet-Friendly Options Only</span>
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">We ensure your loyal companions travel in comfort and safety, as valued members of your household</p>
+                    </div>
+                    <button class="bg-gradient-to-r from-yellow-500 to-red-600 text-white px-8 py-3 rounded-lg font-medium hover:from-yellow-600 hover:to-red-700 transition transform hover:scale-105 w-full md:w-auto">
+                        Find Imperial Routes
+                    </button>
+                </div>
+                <!-- Results -->
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-800">Available Routes (3 found)</h3>
+                        <div class="flex space-x-2">
+                            <button class="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg text-sm hover:bg-yellow-200 font-medium">
+                                <i class="fas fa-sort-amount-down mr-2"></i> Cheapest
+                            </button>
+                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200">Fastest</button>
+                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200">Most Direct</button>
+                        </div>
+                    </div>
+                    <!-- Route 1 -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 search-result">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Route #1: Imperial Express</h4>
+                                <p class="text-sm text-gray-600">Private Aviation + Luxury Yacht + High-Speed Rail</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center">
+                                    <p class="text-2xl font-bold text-yellow-600" id="route1-price">$8,450</p>
+                                    <span class="price-change negative ml-2">-2.3%</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Total Duration: 42h 15m</p>
+                                <p class="text-xs text-gray-500 mt-1">Updated <span id="route1-update">14:22:45</span></p>
+                            </div>
+                        </div>
+                        <!-- Price History Visualization -->
+                        <div class="price-history mb-4"></div>
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center">
+                                <div class="bg-yellow-100 p-2 rounded-lg mr-3 transport-icon">
+                                    <i class="fas fa-plane text-yellow-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Private Jet: JFK Executive Airfield → London Biggin Hill</p>
+                                    <p class="text-sm text-gray-600">Duration: 7h 30m | Dep: 08:00 | Arr: 20:30</p>
+                                    <div class="text-xs text-gray-500">Price updated 38 seconds ago</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-green-600 font-medium" id="flight-price">$3,200</span>
+                                    <span class="price-change negative block mt-1">-1.8%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded-lg mr-3 transport-icon">
+                                    <i class="fas fa-ship text-green-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Luxury Yacht: Southampton Marina → Cannes Private Dock</p>
+                                    <p class="text-sm text-gray-600">Duration: 28h 45m | Dep: 22:00 | Arr: 02:45+1</p>
+                                    <div class="text-xs text-gray-500">Price updated 42 seconds ago</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-green-600 font-medium" id="yacht-price">$2,800</span>
+                                    <span class="price-change positive block mt-1">+0.5%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-2 rounded-lg mr-3 transport-icon">
+                                    <i class="fas fa-train text-purple-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">High-Speed Rail: Cannes Station → Milan Central</p>
+                                    <p class="text-sm text-gray-600">Duration: 6h 00m | Dep: 06:00 | Arr: 12:00</p>
+                                    <div class="text-xs text-gray-500">Price updated 35 seconds ago</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-green-600 font-medium" id="train-price">$2,450</span>
+                                    <span class="price-change negative block mt-1">-3.2%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 mt-1 mr-2"></i>
+                                <div>
+                                    <p class="font-medium text-yellow-800">Layover Services Available</p>
+                                    <p class="text-sm text-yellow-700">14h 30m layover in Southampton. Add imperial accommodations, security, or local services.</p>
+                                    <button class="mt-2 text-sm bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700">Add Services</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="flex-1 bg-yellow-600 text-white py-3 rounded-lg font-medium hover:bg-yellow-700 transition">
+                                Select This Route
+                            </button>
+                            <button class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">
+                                <i class="fas fa-share mr-2"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Route 2 -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 search-result">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Route #2: Economical Passage</h4>
+                                <p class="text-sm text-gray-600">Cargo Plane + Cargo Ship + Freight Train</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center">
+                                    <p class="text-2xl font-bold text-green-600" id="route2-price">$2,150</p>
+                                    <span class="price-change positive ml-2">+1.2%</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Total Duration: 78h 40m</p>
+                                <p class="text-xs text-gray-500 mt-1">Updated <span id="route2-update">14:22:50</span></p>
+                            </div>
+                        </div>
+                        <!-- Price History Visualization -->
+                        <div class="price-history mb-4"></div>
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center">
+                                <div class="bg-yellow-100 p-2 rounded-lg mr-3 transport-icon">
+                                    <i class="fas fa-plane text-yellow-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Cargo Plane: JFK Cargo Terminal → Rotterdam Cargo Airfield</p>
+                                    <p class="text-sm text-gray-600">Duration: 8h 15m | Dep: 06:00 | Arr: 19:15</p>
+                                    <div class="text-xs text-gray-500">Price updated 40 seconds ago</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-green-600 font-medium" id="cargo-flight-price">$850</span>
+                                    <span class="price-change positive block mt-1">+2.4%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded-lg mr-3 transport-icon">
+                                    <i class="fas fa-ship text-green-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Cargo Ship: Rotterdam Port → Piraeus Port</p>
+                                    <p class="text-sm text-gray-600">Duration: 60h 00m | Dep: 21:00 | Arr: 09:00+3</p>
+                                    <div class="text-xs text-gray-500">Price updated 37 seconds ago</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-green-600 font-medium" id="cargo-ship-price">$900</span>
+                                    <span class="price-change negative block mt-1">-0.8%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-2 rounded-lg mr-3 transport-icon">
+                                    <i class="fas fa-train text-purple-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Freight Train: Piraeus Rail Yard → Athens Central</p>
+                                    <p class="text-sm text-gray-600">Duration: 10h 25m | Dep: 11:00 | Arr: 21:25</p>
+                                    <div class="text-xs text-gray-500">Price updated 41 seconds ago</div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-green-600 font-medium" id="freight-train-price">$400</span>
+                                    <span class="price-change positive block mt-1">+1.5%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 mt-1 mr-2"></i>
+                                <div>
+                                    <p class="font-medium text-yellow-800">Extended Layover</p>
+                                    <p class="text-sm text-yellow-700">48h layover in Rotterdam. Consider adding imperial accommodations and security services.</p>
+                                    <button class="mt-2 text-sm bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700">Add Services</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="flex-1 bg-yellow-600 text-white py-3 rounded-lg font-medium hover:bg-yellow-700 transition">
+                                Select This Route
+                            </button>
+                            <button class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">
+                                <i class="fas fa-share mr-2"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Live Tracking Tab -->
+            <div id="tracking-content" class="tab-content hidden">
+                <div class="bg-gradient-to-r from-yellow-50 to-red-50 rounded-xl p-6 mb-6">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Imperial Vehicle Tracking</h2>
+                    <p class="text-gray-600 mb-4">Monitor all aircraft, ships, and trains in real-time with our imperial tracking system.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <div class="flex items-center">
+                                <div class="bg-yellow-100 p-3 rounded-lg mr-3">
+                                    <i class="fas fa-plane text-yellow-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-yellow-600">1,247</p>
+                                    <p class="text-sm text-gray-600">Aircraft Tracked</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-3 rounded-lg mr-3">
+                                    <i class="fas fa-ship text-green-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-green-600">892</p>
+                                    <p class="text-sm text-gray-600">Ships Tracked</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-3 rounded-lg mr-3">
+                                    <i class="fas fa-train text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-purple-600">328</p>
+                                    <p class="text-sm text-gray-600">Trains Tracked</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <button class="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg font-medium hover:bg-yellow-200">
+                            <i class="fas fa-plane mr-2"></i> Aircraft
+                        </button>
+                        <button class="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-medium hover:bg-green-200">
+                            <i class="fas fa-ship mr-2"></i> Ships
+                        </button>
+                        <button class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg font-medium hover:bg-purple-200">
+                            <i class="fas fa-train mr-2"></i> Trains
+                        </button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200">
+                            <i class="fas fa-filter mr-2"></i> Filter
+                        </button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200">
+                            <i class="fas fa-sync mr-2"></i> Refresh (5 min)
+                        </button>
+                    </div>
+                </div>
+                <!-- Map -->
+                <div id="map" class="bg-gray-200 rounded-xl mb-6">
+                    <div class="flex items-center justify-center h-full">
+                        <div class="text-center">
+                            <i class="fas fa-map-marked-alt text-6xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-500">Interactive Imperial Tracking Map</p>
+                            <p class="text-sm text-gray-400 mt-2">Real-time positions of all tracked vehicles</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tracking List -->
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Active Vehicles</h3>
+                    <div class="space-y-3 custom-scrollbar max-h-96 overflow-y-auto">
+                        <!-- Aircraft -->
+                        <div class="border-b border-gray-200 pb-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="vehicle-marker aircraft-marker mr-3" style="background-color: rgba(228, 193, 57, 0.8); border: 2px solid #d4af37;">A</div>
+                                    <div>
+                                        <p class="font-medium text-gray-800">KHG-AJ237 (Imperial Jet)</p>
+                                        <p class="text-sm text-gray-600">From: London Biggin Hill → Cannes</p>
+                                        <p class="text-xs text-yellow-600">En route • ETA: 2h 15m</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-gray-800">Alt: 35,000ft</p>
+                                    <p class="text-sm text-gray-600">Speed: 450kt</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 pb-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="vehicle-marker aircraft-marker mr-3" style="background-color: rgba(228, 193, 57, 0.8); border: 2px solid #d4af37;">C</div>
+                                    <div>
+                                        <p class="font-medium text-gray-800">KHG-CG451 (Cargo Plane)</p>
+                                        <p class="text-sm text-gray-600">From: Rotterdam → Athens</p>
+                                        <p class="text-xs text-yellow-600">En route • ETA: 18h 30m</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-gray-800">Alt: 30,000ft</p>
+                                    <p class="text-sm text-gray-600">Speed: 400kt</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Ships -->
+                        <div class="border-b border-gray-200 pb-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="vehicle-marker ship-marker mr-3" style="background-color: rgba(46, 204, 113, 0.8); border: 2px solid #2ecc71;">S</div>
+                                    <div>
+                                        <p class="font-medium text-gray-800">KHG-LY889 (Imperial Yacht)</p>
+                                        <p class="text-sm text-gray-600">From: Southampton → Cannes</p>
+                                        <p class="text-xs text-green-600">En route • ETA: 26h 45m</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-gray-800">Speed: 18kn</p>
+                                    <p class="text-sm text-gray-600">Draft: 4.2m</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 pb-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="vehicle-marker ship-marker mr-3" style="background-color: rgba(46, 204, 113, 0.8); border: 2px solid #2ecc71;">C</div>
+                                    <div>
+                                        <p class="font-medium text-gray-800">KHG-CS203 (Cargo Ship)</p>
+                                        <p class="text-sm text-gray-600">From: Rotterdam → Piraeus</p>
+                                        <p class="text-xs text-green-600">En route • ETA: 58h 15m</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-gray-800">Speed: 16kn</p>
+                                    <p class="text-sm text-gray-600">Draft: 12.5m</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Trains -->
+                        <div class="border-b border-gray-200 pb-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="vehicle-marker train-marker mr-3" style="background-color: rgba(142, 68, 173, 0.8); border: 2px solid #8e44ad;">H</div>
+                                    <div>
+                                        <p class="font-medium text-gray-800">KHG-HSR774 (Imperial Rail)</p>
+                                        <p class="text-sm text-gray-600">From: Cannes → Milan</p>
+                                        <p class="text-xs text-purple-600">Scheduled • Dep: 06:00</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-gray-800">Speed: 300km/h</p>
+                                    <p class="text-sm text-gray-600">Gauge: 1435mm</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 pb-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="vehicle-marker train-marker mr-3" style="background-color: rgba(142, 68, 173, 0.8); border: 2px solid #8e44ad;">F</div>
+                                    <div>
+                                        <p class="font-medium text-gray-800">KHG-FR881 (Freight Train)</p>
+                                        <p class="text-sm text-gray-600">From: Piraeus → Athens</p>
+                                        <p class="text-xs text-purple-600">En route • ETA: 8h 25m</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium text-gray-800">Speed: 80km/h</p>
+                                    <p class="text-sm text-gray-600">Gauge: 1000mm</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Country Information Panel -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-6 text-gray-800">Imperial Advisories & Country Information</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Country 1 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center mb-4">
+                        <img src="https://flagcdn.com/w20/gb.png" alt="UK" class="mr-3">
+                        <h3 class="font-semibold text-gray-800 text-lg">United Kingdom</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="text-sm text-gray-600">Capital:</span>
+                                <p class="font-medium">London</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Language:</span>
+                                <p class="font-medium">English</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Currency:</span>
+                                <p class="font-medium">Pound Sterling (£)</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Religion:</span>
+                                <p class="font-medium">Christianity (46%)</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Imperial Advisory:</span>
+                            <p class="font-medium text-green-600">Green - Normal Precautions</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Last Security Incident:</span>
+                            <p class="font-medium">2023-07-15 (Protest)</p>
+                        </div>
+                        <div class="cultural-event p-3">
+                            <span class="text-sm text-gray-600">Cultural Enrichment Events (last 12 months):</span>
+                            <p class="font-medium">3 incidents with multiple injuries</p>
+                            <p class="text-sm text-red-600 mt-1">Reoccurrence Likelihood: 20%</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Projected Weather (during your stay):</span>
+                            <div class="flex items-center mt-1">
+                                <i class="fas fa-cloud-sun weather-icon text-yellow-600 mr-2"></i>
+                                <span class="font-medium">Partly Cloudy, 18-22°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Country 2 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center mb-4">
+                        <img src="https://flagcdn.com/w20/fr.png" alt="France" class="mr-3">
+                        <h3 class="font-semibold text-gray-800 text-lg">France</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="text-sm text-gray-600">Capital:</span>
+                                <p class="font-medium">Paris</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Language:</span>
+                                <p class="font-medium">French</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Currency:</span>
+                                <p class="font-medium">Euro (€)</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Religion:</span>
+                                <p class="font-medium">Christianity (47%)</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Imperial Advisory:</span>
+                            <p class="font-medium text-yellow-600">Yellow - Exercise Caution</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Last Security Incident:</span>
+                            <p class="font-medium">2023-09-03 (Public disturbance)</p>
+                        </div>
+                        <div class="cultural-event p-3">
+                            <span class="text-sm text-gray-600">Cultural Enrichment Events (last 12 months):</span>
+                            <p class="font-medium">5 incidents with multiple injuries</p>
+                            <p class="text-sm text-red-600 mt-1">Reoccurrence Likelihood: 45%</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Projected Weather (during your stay):</span>
+                            <div class="flex items-center mt-1">
+                                <i class="fas fa-sun weather-icon text-orange-500 mr-2"></i>
+                                <span class="font-medium">Sunny, 24-28°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Country 3 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center mb-4">
+                        <img src="https://flagcdn.com/w20/gr.png" alt="Greece" class="mr-3">
+                        <h3 class="font-semibold text-gray-800 text-lg">Greece</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="text-sm text-gray-600">Capital:</span>
+                                <p class="font-medium">Athens</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Language:</span>
+                                <p class="font-medium">Greek</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Currency:</span>
+                                <p class="font-medium">Euro (€)</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Religion:</span>
+                                <p class="font-medium">Orthodox Christianity (90%)</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Imperial Advisory:</span>
+                            <p class="font-medium text-green-600">Green - Normal Precautions</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Last Security Incident:</span>
+                            <p class="font-medium">2023-05-22 (Minor protest)</p>
+                        </div>
+                        <div class="cultural-event p-3">
+                            <span class="text-sm text-gray-600">Cultural Enrichment Events (last 12 months):</span>
+                            <p class="font-medium">2 incidents with multiple injuries</p>
+                            <p class="text-sm text-red-600 mt-1">Reoccurrence Likelihood: 15%</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Projected Weather (during your stay):</span>
+                            <div class="flex items-center mt-1">
+                                <i class="fas fa-sun weather-icon text-red-500 mr-2"></i>
+                                <span class="font-medium">Hot & Sunny, 30-35°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Country 4 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center mb-4">
+                        <img src="https://flagcdn.com/w20/nl.png" alt="Netherlands" class="mr-3">
+                        <h3 class="font-semibold text-gray-800 text-lg">Netherlands</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="text-sm text-gray-600">Capital:</span>
+                                <p class="font-medium">Amsterdam</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Language:</span>
+                                <p class="font-medium">Dutch</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Currency:</span>
+                                <p class="font-medium">Euro (€)</p>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-600">Religion:</span>
+                                <p class="font-medium">Christianity (43%)</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Imperial Advisory:</span>
+                            <p class="font-medium text-green-600">Green - Normal Precautions</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Last Security Incident:</span>
+                            <p class="font-medium">2023-08-10 (Public disturbance)</p>
+                        </div>
+                        <div class="cultural-event p-3">
+                            <span class="text-sm text-gray-600">Cultural Enrichment Events (last 12 months):</span>
+                            <p class="font-medium">4 incidents with multiple injuries</p>
+                            <p class="text-sm text-red-600 mt-1">Reoccurrence Likelihood: 38%</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-600">Projected Weather (during your stay):</span>
+                            <div class="flex items-center mt-1">
+                                <i class="fas fa-cloud weather-icon text-gray-500 mr-2"></i>
+                                <span class="font-medium">Cloudy, 16-20°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Accommodation & Services Panel -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-6 text-gray-800">Imperial Accommodations & Services</h2>
+            <!-- Pet Friendly Filter -->
+            <div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-paw pet-icon"></i>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" id="pet-friendly-accom" class="form-checkbox h-5 w-5 text-yellow-600 mr-2">
+                        <span class="text-gray-700 font-medium">Pet-Friendly Accommodations Only</span>
+                    </label>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Our imperial standards ensure your loyal companions are treated with the respect they deserve</p>
+            </div>
+            <!-- Price Update Info -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-sync-alt text-yellow-600 mt-1 mr-2"></i>
+                    <div>
+                        <p class="font-medium text-yellow-800">Real-time Imperial Rate Monitoring</p>
+                        <p class="text-sm text-yellow-700">Our scouts scan 200+ accommodation providers every 30 seconds to ensure you receive the most favorable arrangements. Prices shown are updated in real-time.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Accommodation List -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Hotel 1 -->
+                <div class="border border-gray-200 rounded-lg p-4 service-card">
+                    <div class="flex items-start">
+                        <img src="https://placehold.co/100x80/d4af37/ffffff?text=HS" alt="Hotel" class="rounded-lg mr-4">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h3 class="font-semibold text-gray-800">Hilton Southampton</h3>
+                                <div class="text-right">
+                                    <div class="flex items-center">
+                                        <p class="text-lg font-bold text-yellow-600" id="hotel1-price">$275</p>
+                                        <span class="price-change negative ml-2">-3.1%</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">per night</p>
+                                    <p class="text-xs text-gray-500 mt-1">Updated <span id="hotel1-update">14:22:30</span></p>
+                                </div>
+                            </div>
+                            <div class="price-history mb-2"></div>
+                            <div class="flex items-center mb-2">
+                                <div class="review-stars mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="text-sm text-gray-600">4.5/5 (287 reviews)</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">4-star hotel with pool, spa, and business center. 2 miles from airport.</p>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Free WiFi</span>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">Airport Shuttle</span>
+                                <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded">24/7 Security</span>
+                                <span class="px-2 py-1 filter-badge text-xs rounded">
+                                    <i class="fas fa-paw mr-1"></i> Pet-Friendly
+                                </span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600 mb-3">
+                                <i class="fas fa-car mr-2"></i>
+                                <span>Direct pickup available: $45</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600 mb-3">
+                                <i class="fas fa-hand-holding-usd mr-2"></i>
+                                <span>Bribe to bypass queues: ~$75</span>
+                            </div>
+                            <button class="w-full bg-yellow-600 text-white py-2 rounded-lg text-sm hover:bg-yellow-700 transition">
+                                Book This Accommodation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Private Accommodation -->
+                <div class="border border-gray-200 rounded-lg p-4 service-card">
+                    <div class="flex items-start">
+                        <img src="https://placehold.co/100x80/2ecc71/ffffff?text=PA" alt="Private" class="rounded-lg mr-4">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h3 class="font-semibold text-gray-800">Private Luxury Villa</h3>
+                                <div class="text-right">
+                                    <div class="flex items-center">
+                                        <p class="text-lg font-bold text-green-600" id="villa-price">$420</p>
+                                        <span class="price-change positive ml-2">+2.8%</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">per night</p>
+                                    <p class="text-xs text-gray-500 mt-1">Updated <span id="villa-update">14:22:40</span></p>
+                                </div>
+                            </div>
+                            <div class="price-history mb-2"></div>
+                            <div class="flex items-center mb-2">
+                                <div class="review-stars mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-sm text-gray-600">5.0/5 (45 reviews)</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Exclusive waterfront property with private dock and security. 5 miles from airport.</p>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Private Chef</span>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">Boat Access</span>
+                                <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded">24/7 Security</span>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">Helipad</span>
+                                <span class="px-2 py-1 filter-badge text-xs rounded">
+                                    <i class="fas fa-paw mr-1"></i> Pet-Friendly
+                                </span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600 mb-3">
+                                <i class="fas fa-car mr-2"></i>
+                                <span>Direct pickup available: Included</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600 mb-3">
+                                <i class="fas fa-hand-holding-usd mr-2"></i>
+                                <span>Bribe to bypass queues: Not applicable (private access)</span>
+                            </div>
+                            <button class="w-full bg-green-600 text-white py-2 rounded-lg text-sm hover:bg-green-700 transition">
+                                Book This Accommodation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Airport Pickup & Queue Skip Services -->
+        <div class="bg-gradient-to-r from-red-900 to-yellow-900 text-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-6 header-font">Imperial Airport Services</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white bg-opacity-20 p-3 rounded-lg mr-4">
+                            <i class="fas fa-taxi text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Departures Lounge Pickup</h3>
+                    </div>
+                    <p class="mb-4 opacity-90">Our imperial agents will meet you directly in the departures lounge, bypassing all check-in formalities. Simply provide your flight details and we'll arrange seamless transportation.</p>
+                    <div class="bg-white bg-opacity-10 p-4 rounded-lg mb-4">
+                        <p class="text-sm opacity-80 mb-2"><i class="fas fa-info-circle mr-2"></i> Service available at 350+ international airports</p>
+                        <p class="text-sm opacity-80"><i class="fas fa-shield-alt mr-2"></i> 24/7 imperial security escort included</p>
+                    </div>
+                    <button class="bg-white text-red-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition transform hover:scale-105">
+                        Arrange Departures Pickup
+                    </button>
+                </div>
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white bg-opacity-20 p-3 rounded-lg mr-4 queue-skip">
+                            <i class="fas fa-forward text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Queue Skip Arrangement</h3>
+                    </div>
+                    <p class="mb-4 opacity-90">Our diplomatic corps will contact the airport authorities to arrange priority processing for your entire party. We'll determine the imperial tribute required to bypass all queues.</p>
+                    <div class="bg-white bg-opacity-10 p-4 rounded-lg mb-4">
+                        <p class="text-sm opacity-80 mb-2"><i class="fas fa-envelope mr-2"></i> We'll contact the airport's executive office</p>
+                        <p class="text-sm opacity-80"><i class="fas fa-calculator mr-2"></i> Receive cost estimate within 15 minutes</p>
+                        <p class="text-sm opacity-80"><i class="fas fa-gem mr-2"></i> Guaranteed queue bypass upon payment</p>
+                    </div>
+                    <button class="bg-white text-red-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition transform hover:scale-105">
+                        Initiate Queue Skip Protocol
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Local Activities & Services -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-6 text-gray-800">Local Activities & Services in Southampton</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Activity 1 -->
+                <div class="border border-gray-200 rounded-lg p-4 service-card">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-yellow-100 p-2 rounded-lg mr-3">
+                            <i class="fas fa-utensils text-yellow-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Imperial Dining Experience</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">7-course gourmet meal at Michelin-starred restaurant with wine pairing.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Duration: 3 hours</span>
+                        <div class="text-right">
+                            <span class="text-lg font-bold text-yellow-600" id="dining-price">$185</span>
+                            <span class="price-change negative block mt-1">-1.6%</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Activity 2 -->
+                <div class="border border-gray-200 rounded-lg p-4 service-card">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-100 p-2 rounded-lg mr-3">
+                            <i class="fas fa-wine-bottle text-green-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Wine Tasting Tour</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Visit local vineyards with expert sommelier and premium wine samples.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Duration: 4 hours</span>
+                        <div class="text-right">
+                            <span class="text-lg font-bold text-green-600" id="wine-price">$120</span>
+                            <span class="price-change positive block mt-1">+0.8%</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Activity 3 -->
+                <div class="border border-gray-200 rounded-lg p-4 service-card">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-purple-100 p-2 rounded-lg mr-3">
+                            <i class="fas fa-dumbbell text-purple-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Private Fitness Session</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Personal training with certified instructor at luxury fitness center.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Duration: 1 hour</span>
+                        <div class="text-right">
+                            <span class="text-lg font-bold text-purple-600" id="fitness-price">$85</span>
+                            <span class="price-change negative block mt-1">-2.3%</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 1 -->
+                <div class="border border-gray-200 rounded-lg p-4 service-card">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-red-100 p-2 rounded-lg mr-3">
+                            <i class="fas fa-shield-alt text-red-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Imperial Security</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Armed protection detail with ex-military personnel for your entire stay.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Duration: 24 hours</span>
+                        <div class="text-right">
+                            <span class="text-lg font-bold text-red-600" id="security-price">$320</span>
+                            <span class="price-change positive block mt-1">+1.2%</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 2 -->
+                <div class="border border-gray-200 rounded-lg p-4 service-card">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-yellow-100 p-2 rounded-lg mr-3">
+                            <i class="fas fa-user-md text-yellow-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">On-Call Physician</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Board-certified doctor available for consultations and emergencies.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Duration: 24 hours</span>
+                        <div class="text-right">
+                            <span class="text-lg font-bold text-yellow-600" id="doctor-price">$210</span>
+                            <span class="price-change negative block mt-1">-0.9%</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 3 -->
+                <div class="border border-gray-200 rounded-lg p-4 service-card">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-indigo-100 p-2 rounded-lg mr-3">
+                            <i class="fas fa-tshirt text-indigo-600"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Express Tailoring</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Custom suit alterations with 2-hour turnaround at luxury boutique.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Duration: 2 hours</span>
+                        <div class="text-right">
+                            <span class="text-lg font-bold text-indigo-600" id="tailoring-price">$140</span>
+                            <span class="price-change positive block mt-1">+1.4%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white mt-12">
+            <div class="container mx-auto px-4 py-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <div class="bg-gradient-to-r from-yellow-600 to-red-600 p-2 rounded-lg mr-3">
+                                <i class="fas fa-crown text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold header-font">Kheshig Travel</h3>
+                        </div>
+                        <p class="text-gray-400 text-sm">As the personal bodyguard to the Great Khans, we provide unparalleled protection and luxury for your journeys across the empire.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4">Quick Links</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="#" class="hover:text-yellow-400 transition">Expedition Planning</a></li>
+                            <li><a href="#" class="hover:text-yellow-400 transition">Imperial Tracking</a></li>
+                            <li><a href="#" class="hover:text-yellow-400 transition">Country Advisories</a></li>
+                            <li><a href="#" class="hover:text-yellow-400 transition">Accommodation</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4">Support</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="#" class="hover:text-yellow-400 transition">Help Center</a></li>
+                            <li><a href="#" class="hover:text-yellow-400 transition">Contact Us</a></li>
+                            <li><a href="#" class="hover:text-yellow-400 transition">Privacy Policy</a></li>
+                            <li><a href="#" class="hover:text-yellow-400 transition">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-4">Connect</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-yellow-400 transition">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-yellow-400 transition">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-yellow-400 transition">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-yellow-400 transition">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-4">imperial@kheshigtravel.com</p>
+                        <p class="text-sm text-gray-400">+1 (800) 555-KHAN</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+                    <p>&copy; 2023 Kheshig Travel. All rights reserved. As the elite guard of the Mongol Empire, our service is unmatched in the known world.</p>
+                </div>
+            </div>
+        </footer>
+        <script>
+            // Tab functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                const tabButtons = document.querySelectorAll('.tab-button');
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Remove active class from all buttons and contents
+                        tabButtons.forEach(btn => btn.classList.remove('text-yellow-600', 'border-b-2'));
+                        tabButtons.forEach(btn => btn.classList.add('text-gray-600'));
+                        tabContents.forEach(content => content.classList.add('hidden'));
+                        // Add active class to clicked button
+                        button.classList.remove('text-gray-600');
+                        button.classList.add('text-yellow-600', 'border-b-2', 'border-yellow-600');
+                        // Show corresponding content
+                        const tabId = button.id.replace('-tab', '-content');
+                        document.getElementById(tabId).classList.remove('hidden');
+                    });
+                });
+                // Real-time price updates (every 30 seconds)
+                function updatePrices() {
+                    const now = new Date();
+                    const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                     now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                     now.getSeconds().toString().padStart(2, '0');
+                    // Update main time display
+                    document.getElementById('update-time').textContent = timeString;
+                    // Update individual route prices with random fluctuations
+                    const route1Price = document.getElementById('route1-price');
+                    const route2Price = document.getElementById('route2-price');
+                    // Simulate price changes
+                    const currentRoute1 = parseFloat(route1Price.textContent.replace('$', ''));
+                    const currentRoute2 = parseFloat(route2Price.textContent.replace('$', ''));
+                    const change1 = (Math.random() - 0.5) * 100; // -50 to +50 change
+                    const change2 = (Math.random() - 0.5) * 50;  // -25 to +25 change
+                    const newRoute1 = Math.max(7000, Math.round((currentRoute1 + change1) * 100) / 100);
+                    const newRoute2 = Math.max(1800, Math.round((currentRoute2 + change2) * 100) / 100);
+                    route1Price.textContent = '$' + newRoute1;
+                    route2Price.textContent = '$' + newRoute2;
+                    // Update price change indicators
+                    const changePercent1 = ((change1 / currentRoute1) * 100).toFixed(1);
+                    const changePercent2 = ((change2 / currentRoute2) * 100).toFixed(1);
+                    document.querySelector('#route1-price + .price-change').textContent = change1 >= 0 ? `+${changePercent1}%` : `${changePercent1}%`;
+                    document.querySelector('#route1-price + .price-change').className = change1 >= 0 ? 'price-change positive' : 'price-change negative';
+                    document.querySelector('#route2-price + .price-change').textContent = change2 >= 0 ? `+${changePercent2}%` : `${changePercent2}%`;
+                    document.querySelector('#route2-price + .price-change').className = change2 >= 0 ? 'price-change positive' : 'price-change negative';
+                    // Update all component prices
+                    const components = [
+                        { id: 'flight-price', base: 3200, change: (Math.random() - 0.5) * 60 },
+                        { id: 'yacht-price', base: 2800, change: (Math.random() - 0.5) * 40 },
+                        { id: 'train-price', base: 2450, change: (Math.random() - 0.5) * 80 },
+                        { id: 'cargo-flight-price', base: 850, change: (Math.random() - 0.5) * 20 },
+                        { id: 'cargo-ship-price', base: 900, change: (Math.random() - 0.5) * 15 },
+                        { id: 'freight-train-price', base: 400, change: (Math.random() - 0.5) * 10 }
+                    ];
+                    components.forEach(comp => {
+                        const element = document.getElementById(comp.id);
+                        const current = parseFloat(element.textContent.replace('$', ''));
+                        const change = (Math.random() - 0.5) * 20;
+                        const newValue = Math.max(100, Math.round((current + change) * 100) / 100);
+                        element.textContent = '$' + newValue;
+                        const changePercent = ((change / current) * 100).toFixed(1);
+                        const changeElement = element.nextElementSibling;
+                        changeElement.textContent = change >= 0 ? `+${changePercent}%` : `${changePercent}%`;
+                        changeElement.className = change >= 0 ? 'price-change positive block mt-1' : 'price-change negative block mt-1';
+                    });
+                    // Update accommodation prices
+                    const accommodationChanges = [
+                        { priceId: 'hotel1-price', updateId: 'hotel1-update' },
+                        { priceId: 'villa-price', updateId: 'villa-update' }
+                    ];
+                    accommodationChanges.forEach(acc => {
+                        const priceElement = document.getElementById(acc.priceId);
+                        const currentPrice = parseFloat(priceElement.textContent.replace('$', ''));
+                        const change = (Math.random() - 0.5) * 10;
+                        const newPrice = Math.max(100, Math.round((currentPrice + change) * 100) / 100);
+                        priceElement.textContent = '$' + newPrice;
+                        const changePercent = ((change / currentPrice) * 100).toFixed(1);
+                        const changeElement = priceElement.nextElementSibling;
+                        changeElement.textContent = change >= 0 ? `+${changePercent}%` : `${changePercent}%`;
+                        changeElement.className = change >= 0 ? 'price-change positive ml-2' : 'price-change negative ml-2';
+                        // Update timestamp
+                        document.getElementById(acc.updateId).textContent = timeString;
+                    });
+                    // Update service prices
+                    const services = ['dining', 'wine', 'fitness', 'security', 'doctor', 'tailoring'];
+                    services.forEach(service => {
+                        const priceElement = document.getElementById(`${service}-price`);
+                        const currentPrice = parseFloat(priceElement.textContent.replace('$', ''));
+                        const change = (Math.random() - 0.5) * 5;
+                        const newPrice = Math.max(50, Math.round((currentPrice + change) * 100) / 100);
+                        priceElement.textContent = '$' + newPrice;
+                        const changePercent = ((change / currentPrice) * 100).toFixed(1);
+                        const changeElement = priceElement.nextElementSibling;
+                        changeElement.textContent = change >= 0 ? `+${changePercent}%` : `${changePercent}%`;
+                        changeElement.className = change >= 0 ? 'price-change positive block mt-1' : 'price-change negative block mt-1';
+                    });
+                    // Update all timestamps
+                    document.querySelectorAll('[id$="-update"]').forEach(el => {
+                        el.textContent = timeString;
+                    });
+                }
+                // Initial price update
+                updatePrices();
+                // Update prices every 30 seconds
+                setInterval(updatePrices, 30000);
+            });
+        </script>
+    </main>
+</body>
+</html>
+```
