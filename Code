@@ -217,7 +217,7 @@
             <div class="absolute inset-0 bg-black opacity-20"></div>
             <div class="relative z-10">
                 <h2 class="text-4xl md:text-5xl font-bold header-font mb-4">The Elite Guard of Travel</h2>
-                <p class="text-xl mb-6 opacity-90">We are here to advise you of the best and most up to date prices and methods of travel </p>
+                <p class="text-xl mb-6 opacity-90">As the personal bodyguard to the Great Khans, we provide unparalleled protection and luxury for your journeys across the empire</p>
                 <div class="bg-yellow-800/50 p-4 rounded-lg inline-block">
                     <p class="font-medium"><i class="fas fa-crown mr-2"></i> Only the Kheshig can command such service</p>
                 </div>
